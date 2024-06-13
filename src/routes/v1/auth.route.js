@@ -3,6 +3,8 @@ const validate = require('../../middlewares/validate');
 const authValidation = require('../../validations/auth.validation');
 const authController = require('../../controllers/auth.controller');
 const auth = require('../../middlewares/auth');
+const userValidation = require('../../validations/user.validation');
+const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
@@ -14,6 +16,11 @@ router.post('/forgot-password', validate(authValidation.forgotPassword), authCon
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
 router.post('/send-verification-email', auth(), authController.sendVerificationEmail);
 router.post('/verify-email', validate(authValidation.verifyEmail), authController.verifyEmail);
+
+router.route('/:userId')
+  .patch(auth('updateSelf'), validate(userValidation.updateUser), authController.updateUser);
+router.route('/:userId')
+  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
 
 module.exports = router;
 
@@ -269,6 +276,8 @@ module.exports = router;
  *   post:
  *     summary: verify email
  *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: token
@@ -279,6 +288,8 @@ module.exports = router;
  *     responses:
  *       "204":
  *         description: No content
+ *         content:
+ *           application/text:
  *       "401":
  *         description: verify email failed
  *         content:

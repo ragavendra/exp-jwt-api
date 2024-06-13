@@ -34,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(xss());
 app.use(mongoSanitize());
 
+// Not required if behind Nginx or similar - http://nginx.org/en/docs/http/ngx_http_gzip_module.html
 // gzip compression
 app.use(compression());
 
