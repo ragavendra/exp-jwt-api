@@ -13,7 +13,9 @@ Similarly reset password token is valid upto 10 minutes as well.
 #### For login
 First when a user registers or logs in, a auth (30 min) and a refresh token(30 days) is generated or sent in the response.
 
-After 30 min, the user has to send the refresh token in body as POST to `/v1/auth/refresh-tokens` to get a response similar to register or login.
+After 30 min, the user has to send the refresh token in body as POST to `/v1/auth/refresh-tokens` to get a response similar to register or login. The user can now use the newly generated auth token for authenticated routes and continue doing so.
+
+With no or expired auth token and expired refresh token, the user haslittle or no choice but to login again with his credentials.
 
 #### For verify email or reset password
 Similar to login, but refresh token is not sent.
